@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>VehicleInspect | UK's Leading Vehicle Inspection Service</title>
+    <meta name="description" content="Professional vehicle inspection services for Cars, Trucks, Vans, Boats, Yachts, Bikes, ATVs, Jetskis across the UK.">
+    <meta name="keywords" content="car inspection, bike inspection, boat inspection, vehicle check, UK service">
+    <meta name="author" content="VehicleInspect">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="vilogo2.png">
+    
+    <!-- Tailwind + Fonts + AOS -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+    
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- EmailJS SDK -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init({
+                publicKey: "Gv9yvYc-RwspkYBjJ",
+            });
+        })();
+    </script>
+    
+    <!-- Tawk.to Chat Script -->
+    <script type="text/javascript">
+        var Tawk_API = Tawk_API || {}, Tawk_LoadStart = new Date();
+        (function() {
+            var s1 = document.createElement("script"), s0 = document.getElementsByTagName("script")[0];
+            s1.async = true;
+            s1.src = 'https://embed.tawk.to/6a0f31fe62b0761c3d8d52a8/default';
+            s1.charset = 'UTF-8';
+            s1.setAttribute('crossorigin', '*');
+            s0.parentNode.insertBefore(s1, s0);
+        })();
+    </script>
+</head>
+<body class="bg-white text-gray-800">
+
+    <!-- Dark Mode Toggle -->
+    <button id="darkModeToggle" class="fixed top-2 right-3 z-50 bg-white dark:bg-gray-800 shadow-md p-2 rounded-full w-10 h-10 flex items-center justify-center">
+        <i class="fas fa-moon dark:text-yellow-300 text-gray-700"></i>
+    </button>
+
+    <!-- Navigation -->
+    <nav class="bg-white shadow-md sticky top-0 z-40 dark:bg-gray-900">
+        <div class="container mx-auto px-5 py-3 flex flex-wrap justify-between items-center">
+            <a href="#home" class="flex items-center space-x-3 cursor-pointer group">
+                <img src="vilogo2.png" alt="Logo" class="w-10 h-10 transition-transform duration-300 group-hover:scale-105">
+                <div class="text-2xl font-bold text-blue-600 transition-colors duration-300 group-hover:text-blue-700 dark:group-hover:text-blue-400">
+                    Vehicle<span class="text-red-500 group-hover:text-red-600">Inspect</span>
+                </div>
+            </a>
+            
+            <div class="hidden md:flex space-x-6 font-medium items-center">
+                <a href="#home" class="hover:text-blue-600 transition">Home</a>
+                <a href="#categories" class="hover:text-blue-600 transition">Vehicles</a>
+                <a href="#countries" class="hover:text-blue-600 transition">Countries</a>
+                <a href="#dealers" class="hover:text-blue-600 transition">Dealers</a>
+                <a href="#blog" class="hover:text-blue-600 transition">Blog</a>
+                <a href="#contact" class="hover:text-blue-600 transition">Contact</a>
+                <button id="navAdminBtn" class="bg-gray-800 text-white px-4 py-1 rounded-full text-sm hover:bg-gray-700 transition">
+                    <i class="fas fa-shield-alt mr-1"></i> Admin
+                </button>
+            </div>
+            
+            <button class="md:hidden text-2xl">☰</button>
+        </div>
+    </nav>
+
+    <!-- Main Website Content -->
+    <div id="mainContent">
+        <!-- Hero -->
+        <section id="home" class="container mx-auto px-5 py-16 md:py-20 text-center" data-aos="fade-up">
+            <h1 class="text-4xl md:text-6xl font-extrabold">Professional <span class="text-blue-600">Vehicle Inspection</span> Across UK</h1>
+            <p class="text-gray-500 text-lg mt-4">Cars, Trucks, Vans, Bikes, Boats, Yachts, ATVs, Jetskis — We inspect them all!</p>
+            <div class="mt-8">
+                <img src="https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=1200&h=400&fit=crop" alt="Vehicle Inspection" class="rounded-2xl shadow-2xl w-full object-cover" style="max-height: 400px;">
+            </div>
+        </section>
+
+        <!-- Vehicle Categories Section -->
+        <section id="categories" class="py-16 bg-gray-50 dark:bg-gray-800">
+            <div class="container mx-auto px-5">
+                <h2 class="text-3xl font-bold text-center mb-4">Choose Your Vehicle Type</h2>
+                <p class="text-center text-gray-500 mb-12">Click on any vehicle to see inspection plans</p>
+                <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-8 gap-4" id="categoriesGrid"></div>
+            </div>
+        </section>
+
+        <!-- Plans Section -->
+        <section id="plansSection" class="py-16 container mx-auto px-5 vehicle-section">
+            <h2 class="text-3xl font-bold text-center mb-4" id="selectedVehicleTitle">Select a Vehicle Category</h2>
+            <p class="text-center text-gray-500 mb-12" id="selectedVehicleSubtitle">Click on any vehicle image above to view inspection plans</p>
+            <div class="grid md:grid-cols-3 gap-8 mt-6" id="plansContainer"></div>
+        </section>
+
+        <!-- Countries Marquee Section -->
+        <section id="countries" class="py-16 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900 overflow-hidden">
+            <div class="container mx-auto px-5">
+                <h2 class="text-3xl font-bold text-center mb-4 text-gray-800 dark:text-white">🌍 We Serve Worldwide</h2>
+                <p class="text-center text-gray-600 dark:text-gray-300 mb-12">Professional inspection services available in these countries</p>
+                <div class="relative overflow-hidden">
+                    <div class="marquee-track marquee-track-1" id="countriesMarquee"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Verified Dealers Section -->
+        <section id="dealers" class="py-16 bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-gray-800 dark:to-gray-900">
+            <div class="container mx-auto px-5">
+                <h2 class="text-3xl font-bold text-center mb-4">Verified Dealers & Car Sales</h2>
+                <p class="text-center text-gray-600 dark:text-gray-300 mb-12">Trusted partners across the UK with excellent reviews</p>
+                <div class="grid md:grid-cols-3 gap-8 mb-12">
+                    <div class="bg-white dark:bg-gray-700 rounded-2xl p-6 text-center shadow-lg card-hover">
+                        <i class="fas fa-users text-blue-500 text-5xl"></i>
+                        <div class="counter-number" id="dealersCount">0</div>
+                        <p class="font-semibold mt-2">Verified Dealers</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-700 rounded-2xl p-6 text-center shadow-lg card-hover">
+                        <i class="fas fa-car text-blue-500 text-5xl"></i>
+                        <div class="counter-number" id="carsSoldCount">0</div>
+                        <p class="font-semibold mt-2">Cars Sold (2024)</p>
+                    </div>
+                    <div class="bg-white dark:bg-gray-700 rounded-2xl p-6 text-center shadow-lg card-hover">
+                        <i class="fas fa-star text-yellow-500 text-5xl"></i>
+                        <div class="counter-number" id="reviewsCount">0</div>
+                        <p class="font-semibold mt-2">Customer Reviews</p>
+                    </div>
+                </div>
+                <div class="bg-white dark:bg-gray-800 rounded-2xl p-6 shadow-lg">
+                    <h3 class="text-xl font-bold mb-4">⭐ Top Rated Dealers</h3>
+                    <div class="space-y-4" id="dealersList"></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Blog Section -->
+        <section id="blog" class="py-16 bg-gray-50 dark:bg-gray-800">
+            <div class="container mx-auto px-5">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-gray-800 dark:text-white mb-3">
+                        📝 Latest from <span class="text-blue-600">Our Blog</span>
+                    </h2>
+                    <p class="text-gray-500 dark:text-gray-400 max-w-2xl mx-auto">
+                        Expert tips, maintenance guides, and industry news to keep your vehicle in top condition
+                    </p>
+                </div>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8" id="blogGrid"></div>
+            </div>
+        </section>
+
+        <!-- Contact -->
+        <section id="contact" class="py-16 container mx-auto px-5">
+            <h2 class="text-3xl font-bold text-center">Get In Touch</h2>
+            <div class="max-w-2xl mx-auto mt-10">
+                <form id="contactForm" class="space-y-4">
+                    <input type="text" id="contactName" placeholder="Full Name" class="w-full p-3 border rounded dark:bg-gray-800" required>
+                    <input type="email" id="contactEmail" placeholder="Email" class="w-full p-3 border rounded dark:bg-gray-800" required>
+                    <textarea id="contactMsg" placeholder="Message" rows="4" class="w-full p-3 border rounded"></textarea>
+                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded w-full hover:bg-blue-700">Send Message</button>
+                </form>
+               
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="bg-gray-900 text-white py-12">
+            <div class="container mx-auto px-5">
+                <div class="flex flex-col items-center justify-center mb-6">
+                    <div class="flex items-center gap-3 mb-2">
+                        <img src="vilogo2.png" alt="VehicleInspect Logo" class="w-12 h-12 object-contain">
+                        <div class="text-2xl font-bold">
+                            <span class="text-blue-400">Vehicle</span><span class="text-red-400">Inspect</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-500 text-sm">Professional Vehicle Inspection Service</p>
+                </div>
+                <div class="border-t border-gray-700 my-6"></div>
+                <p class="text-gray-400 text-center text-sm">
+                    © 2025 VehicleInspect - Trusted UK Vehicle Inspections. All rights reserved.
+                </p>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPage" class="admin-page">
+        <div class="min-h-screen bg-gray-100 dark:bg-gray-900">
+            <nav class="bg-blue-600 text-white p-4 shadow-lg">
+                <div class="container mx-auto flex justify-between items-center">
+                    <span class="text-xl font-bold">Admin Dashboard</span>
+                    <button id="backToSiteBtn" class="bg-white text-blue-600 px-4 py-2 rounded-lg">← Back to Site</button>
+                </div>
+                <button onclick="clearAllBookings()" class="bg-red-600 text-white px-4 py-2 rounded-lg mt-4 hover:bg-red-700">
+    <i class="fas fa-trash mr-2"></i>Clear All Bookings
+</button>
+            </nav>
+            <div class="container mx-auto px-5 py-8">
+                <div class="bg-white dark:bg-gray-800 rounded-xl shadow-lg p-6">
+                    <h3 class="text-xl font-bold mb-4">📋 All Bookings</h3>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead class="border-b">
+                                <tr><th class="p-2 text-left">Customer</th><th class="p-2 text-left">Vehicle</th><th class="p-2 text-left">Plan</th><th class="p-2 text-left">City</th><th class="p-2 text-left">Date</th><th class="p-2 text-left">Receipt</th></tr>
+                            </thead>
+                            <tbody id="adminBookingList"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="modal-overlay">
+        <div class="booking-modal">
+            <span class="close-modal-btn" id="closeModal">&times;</span>
+            <h3 class="text-2xl font-bold mb-4">Complete Your Booking</h3>
+            <form id="professionalBookingForm">
+                <input type="hidden" id="planNameInput">
+                <input type="hidden" id="planPriceInput">
+                <input type="hidden" id="vehicleTypeInput">
+                
+                <div class="mb-3">
+                    <label>Full Name *</label>
+                    <input type="text" id="bookingName" class="w-full p-2 border rounded">
+                    <span class="error-message" id="nameError"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <label>Email *</label>
+                    <input type="email" id="bookingEmail" class="w-full p-2 border rounded">
+                    <span class="error-message" id="emailError"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <label>Phone</label>
+                    <input type="tel" id="bookingPhone" class="w-full p-2 border rounded">
+                </div>
+                
+                <div class="mb-3">
+                    <label>Country *</label>
+                    <select id="bookingCountry" class="w-full p-2 border rounded">
+                        <option value="">-- Select Country --</option>
+                    </select>
+                    <span class="error-message" id="countryError"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <label>City *</label>
+                    <select id="bookingCity" class="w-full p-2 border rounded"> 
+                        <option value="">-- First Select Country --</option>
+                    </select>
+                    <span class="error-message" id="cityError"></span>
+                </div>
+                
+                <div class="mb-3">
+                    <label>Preferred Date</label>
+                    <input type="date" id="bookingDate" class="w-full p-2 border rounded">
+                </div>
+                
+                <button type="submit" class="btn-primary text-white w-full py-2 rounded-full mt-3">Confirm & Proceed to Payment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Payment Modal - Manual Transfer -->
+    <div id="paymentModal" class="modal-overlay">
+        <div class="booking-modal payment-modal" style="max-width: 500px; width: 95%; margin: auto; border-radius: 20px; max-height: 90vh; overflow-y: auto;">
+            <span class="close-modal-btn" id="closePaymentModal">&times;</span>
+            
+            <div class="text-center mb-3">
+                <i class="fas fa-university text-4xl text-blue-600"></i>
+                <h3 class="text-xl font-bold mt-2">Bank Transfer Details</h3>
+                <p class="text-gray-500 text-xs">Complete your booking by transferring the amount</p>
+            </div>
+
+            <!-- Bank Details -->
+            <div class="bg-gray-100 dark:bg-gray-700 rounded-lg p-3 mb-3">
+                <div class="text-center mb-2">
+                    <p class="text-2xl font-bold text-blue-600" id="paymentAmountDisplay">£0</p>
+                    <p class="text-xs text-gray-500">Amount to pay</p>
+                </div>
+                
+                <div class="space-y-1 text-sm">
+                    <div class="flex flex-wrap justify-between items-center"><span class="font-semibold">Bank Name:</span><span>Ramtal</span></div>
+                    <div class="flex flex-wrap justify-between items-center"><span class="font-semibold">Account Number:</span><span>64700201</span></div>
+                    <div class="flex flex-wrap justify-between items-center"><span class="font-semibold">Sort Code:</span><span>60-84-64</span></div>
+                    <div class="flex flex-wrap justify-between items-center"><span class="font-semibold">IBAN:</span><span>GB23 TRWI 6084 6464 7002 01</span></div>
+                    <div class="flex flex-wrap justify-between items-center"><span class="font-semibold">Swift/BIC:</span><span id="bookingRef" class="text-blue-600 font-mono">TRWIGB2LXXX</span></div>
+                </div>
+            </div>
+
+            <!-- Upload Receipt Section -->
+            <div class="border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg p-3 mb-3 text-center">
+                <i class="fas fa-cloud-upload-alt text-2xl text-gray-400 mb-1"></i>
+                <p class="text-xs text-gray-600 dark:text-gray-400 mb-2">Upload Payment Receipt/Screenshot</p>
+                <input type="file" id="receiptUpload" accept="image/*" class="hidden" onchange="handleReceiptUpload(event)">
+                <button type="button" onclick="document.getElementById('receiptUpload').click()" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-300 px-3 py-1.5 rounded text-xs hover:bg-gray-300 transition">
+                    <i class="fas fa-folder-open mr-1"></i>Choose File
+                </button>
+                <div id="receiptPreview" class="mt-2 hidden">
+                    <div class="flex items-center justify-between bg-green-50 dark:bg-green-900/20 p-2 rounded">
+                        <div class="flex items-center gap-2"><i class="fas fa-check-circle text-green-500 text-sm"></i><span class="text-xs text-green-700 dark:text-green-300" id="receiptFileName"></span></div>
+                        <button type="button" onclick="clearReceipt()" class="text-red-500 text-xs hover:text-red-700">Remove</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex flex-col gap-2">
+                <button type="button" onclick="copyBankDetails()" class="w-full bg-gray-600 text-white py-2 rounded-lg text-sm hover:bg-gray-700 transition">
+                    <i class="fas fa-copy mr-1"></i>Copy Bank Details
+                </button>
+                <button type="button" id="confirmManualBookingBtn" class="w-full bg-green-600 text-white py-2 rounded-lg text-sm hover:bg-green-700 transition">
+                    <i class="fas fa-check mr-1"></i>Submit Booking
+                </button>
+            </div>
+
+            <div class="text-center text-xs text-gray-500 mt-3">
+                <i class="fas fa-lock mr-1"></i> Your booking will be confirmed after payment verification
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Login Modal -->
+    <div id="adminLoginModal" class="modal-overlay">
+        <div class="booking-modal">
+            <span class="close-modal-btn" id="closeAdminModal">&times;</span>
+            <h3 class="text-2xl font-bold mb-4">Admin Login</h3>
+            <form id="adminLoginForm">
+                <div class="mb-3"><label>Username</label><input type="text" id="adminUsername" class="w-full p-2 border rounded"></div>
+                <div class="mb-3"><label>Password</label><input type="password" id="adminPassword" class="w-full p-2 border rounded"></div>
+                <button type="submit" class="bg-blue-600 text-white w-full py-2 rounded-full">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Hidden Elements for JavaScript -->
+    <div id="ukCitiesGrid" style="display: none;"></div>
+    <div id="blogGrid" style="display: none;"></div>
+    <div id="adminPriceList" style="display: none;"></div>
+    <div id="statBookings" style="display: none;">0</div>
+    <div id="statRevenue" style="display: none;">£0</div>
+    <div id="statVehicles" style="display: none;">0</div>
+    <div id="statCities" style="display: none;">0</div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
